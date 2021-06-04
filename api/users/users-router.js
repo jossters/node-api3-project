@@ -37,9 +37,12 @@ router.post('/',validateUser, (req, res, next) => {
 });
 
 router.put('/:id', validateUserId, validateUser,(req, res, next) => {
-  Users.update(req.params.id, req.body)
+  Users.update(req.params.id, {name: req.name})
+    .then(() => {
+      return Users.getById(req.params.id)
+    })
     .then(user => {
-      res.status(200).json(user);
+      res.status(200).json(user)
     })
     .catch(next)
 });
