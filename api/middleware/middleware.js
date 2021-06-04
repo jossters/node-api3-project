@@ -49,28 +49,27 @@ function validateUser(req, res, next) {
     status: 400,
   })
 } else {
-  req.user = { name: req.body.name.trim() }
+  req.name = name.trim()
   next()
 }
 }
 
 function validatePost(req, res, next) {
-  const {title} = req.body
-  if (!title ||
-  typeof title !== "string" ||
-  title.trim().length <= 2
+  const {text} = req.body
+  if (!text ||
+  typeof text !== "string" ||
+  text.trim().length <= 2
 ){
   next({
     message: "missing required text field",
     status: 400,
   })
 } else {
-  req.post = { name: req.body.title.trim() }
+  req.text = text.trim()
   next()
 }
 }
 
-// do not forget to expose these functions to other modules
 module.exports = {
   validatePost,
   validateUser,
