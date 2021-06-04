@@ -17,7 +17,6 @@ router.use(logger);
 
 router.get('/', (req, res, next) => { 
   Users.get(req.query)
-  console.log(req.query)
    .then(users => {
      res.status(200).json(users);
    }) 
