@@ -17,6 +17,7 @@ router.use(logger);
 
 router.get('/', (req, res, next) => { 
   Users.get(req.query)
+  console.log(req.query)
    .then(users => {
      res.status(200).json(users);
    }) 
@@ -40,6 +41,7 @@ router.put('/:id', validateUserId, validateUser,(req, res, next) => {
   Users.update(req.params.id, {name: req.name})
     .then(() => {
       return Users.getById(req.params.id)
+      c
     })
     .then(user => {
       res.status(200).json(user)
@@ -50,25 +52,32 @@ router.put('/:id', validateUserId, validateUser,(req, res, next) => {
 router.delete('/:id', validateUserId,(req, res, next) => {
   Users.remove(req.params.id)
   .then(() => {
-    res.status(200).json({ message: 'The user removed' });
+    res.status(200).json(req.user);
   })
   .catch(next);
 });
 
 router.get('/:id/posts', validateUserId,(req, res, next) => {
-  Posts.get(req.post)
+  Users.getUserPosts(req.params.id)
     .then(post => {
       res.status(200).json(post);
     })
     .catch(next);
 });
+//☝️☝️☝️☝️☝️☝️☝️☝️☝️☝️☝️☝️
+// try{
+//  const result = await Users.getUserPosts(req.params.id)
+//  res.json(result)
+// } catch (err) {
+//   next(err)
+// }
 
 router.post('/:id/posts', validateUserId, validatePost,(req, res, next) => {
   const postsInfo= { ...req.body, user_id: req.params.id };
 
   Posts.insert(postsInfo)
     .then(posts => {
-      res.status(210).json(posts);
+      res.status(201).json(posts);
     })
     .catch(next)
 });
